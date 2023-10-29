@@ -1,0 +1,30 @@
+% Open the PPM file
+MyFile = fopen('Test_1.ppm', 'r');
+
+% Read and verify the magic number
+Magic_num = fscanf(MyFile, '%s', 1);
+if ~strcmp(Magic_num, 'P6')
+    error('Your file is incorrect!');
+end
+
+% Read the image W, H, and maximum color value
+W = fscanf(MyFile, '%d', 1);
+H = fscanf(MyFile, '%d', 1);
+MaxVal = fscanf(MyFile, '%d', 1);
+
+% Read the pixel data
+pixel_data = uint8(fread(MyFile, H * W * 3, 'uint8'));
+
+% Reshape the pixel data into RGB format
+image_data = permute(reshape(pixel_data, [ 3 , W , H ]), [3,2,1]);
+
+R = image_data(:, :, 1);
+G = image_data(:, :, 2);
+B = image_data(:, :, 3);
+NewIMG = cat(3, G,B, R);
+
+% Close the file
+fclose(MyFile);
+
+% Display the image
+imshow(NewIMG);

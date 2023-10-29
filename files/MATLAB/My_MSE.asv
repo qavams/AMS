@@ -1,0 +1,23 @@
+function MSE = My_MSE(Original_Image, Reconstructed_Image)
+
+    % Convert to double 
+    Original_Image = im2double(Original_Image);
+    Reconstructed_Image = im2double(Reconstructed_Image);
+
+    % Calculate SE
+    SquaredError = (Original_Image - Reconstructed_Image).^2;
+    
+    % Compute MSE
+    mean_squared_error = mean(squared_error(:));
+    
+    % Calculation based on channels
+    if size(Original_Image, 3) > 1  % Color image
+        num_pixels = size(Original_Image, 1) * size(Original_Image, 2) * size(Original_Image, 3);
+    else
+        num_pixels = numel(Original_Image); % Grayscale or black and white image
+    end
+
+    MSE = mean_squared_error * num_pixels;
+
+end
+
